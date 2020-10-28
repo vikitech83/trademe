@@ -26,27 +26,30 @@ public class SeleniumConfig {
         Select category = new Select(driver.findElement(By.id("SearchType")));
         category.selectByValue("1"); //Cars, bikes & boats have category value '1'
 
-
+        //Wait for next page to load 
         driver.findElement(By.className("btn-trademe")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h1.landing-header.motors-heading")));
 
-
+        //Select more option to show all listings on page
+        // this can be improved and made optional
         driver.findElement(By.partialLinkText("more")).click();
         driver.findElement(By.id("ListingsTitle_MotorsListingTypeControl_All_on")).click();
 
         String allListings = driver.findElement(By.id("ListView_listingTableHeader_headerColumnListViewText")).getText();
         String str_count = allListings.split(" ")[0];
         int count = Integer.parseInt(str_count);
+        //print number of listing on page
         System.out.println(count);
-
+        
+        // Can you random module to select entry out of 3 listings on page
+        // using xpath for 2nd listing
         driver.findElement(By.xpath("//*[@id='ListViewList']/li[2]/div[1]/div")).click();
         WebElement carattributes = driver.findElement(By.cssSelector("#AttributesDisplay_attributesSection > ul"));
+        // saving to array variable `car` (li), unordered list of entries (ul) fetched 
         List<WebElement> car = carattributes.findElements(By.tagName("li"));
         for (WebElement li : car){
             actualString = actualString + li.getText();
-
-        }
-
+            }
         }
 
     @Test
@@ -69,7 +72,7 @@ public class SeleniumConfig {
         String expectedSeats = "Seats";
         Assert.assertTrue(actualString.contains(expectedSeats));
     }
-    
+
 
 
 }
